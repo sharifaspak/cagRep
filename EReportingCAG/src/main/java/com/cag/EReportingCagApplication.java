@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Bean;
 public class EReportingCagApplication {
 
 
-// Test project commits
+// Test project commits 2
 	public static void main(String[] args) {
 		SpringApplication.run(EReportingCagApplication.class, args);
 	}
