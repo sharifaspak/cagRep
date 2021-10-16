@@ -6,8 +6,6 @@ package com.cag.controller;
 import java.util.Date;
 
 import org.modelmapper.ModelMapper;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,6 +20,8 @@ import com.cag.model.responsedto.HabitsNMedHistResDto;
 import com.cag.service.HabitsNMedHistService;
 import com.cag.utility.ApplicationConstants;
 
+import lombok.extern.slf4j.Slf4j;
+
 /**
  * @author aspak.avesh.sharif
  *
@@ -29,9 +29,8 @@ import com.cag.utility.ApplicationConstants;
 
 @RestController
 @RequestMapping(value = "/habitsNMedHistory/")
+@Slf4j
 public class HabitsNMedHisController {
-
-	private static final Logger LOG = LoggerFactory.getLogger(HabitsNMedHisController.class);
 
 	@Autowired
 	HabitsNMedHistService habitsNMedHistService;
@@ -49,7 +48,7 @@ public class HabitsNMedHisController {
 			responseDto.setStatusMessage(ApplicationConstants.SUCCESS);
 			return responseDto;
 		} catch (Exception e) {
-			LOG.info("Invalid case id {} . Please retry with valid case Id", caseId);
+			log.info("Invalid case id {} . Please retry with valid case Id", caseId);
 			responseDto.setStatuscode(ApplicationConstants.INVALID_CASE_ID_CODE);
 			responseDto.setStatusMessage(ApplicationConstants.INVALID_CASE_ID_MESSAGE);
 			responseDto.setErrorMessage(e.getMessage());

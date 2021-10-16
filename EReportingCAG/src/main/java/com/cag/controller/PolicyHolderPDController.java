@@ -19,8 +19,11 @@ import org.springframework.web.bind.annotation.RestController;
 import com.cag.model.entity.PolicyHolderPD;
 import com.cag.model.requestdto.PolicyHolderPDRequestDto;
 import com.cag.model.responsedto.PolicyHolderPDResponseDto;
+import com.cag.security.JwtUserDetailsService;
 import com.cag.service.PolicyHolderPDService;
 import com.cag.utility.ApplicationConstants;
+
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * @author aspak.avesh.sharif
@@ -28,9 +31,8 @@ import com.cag.utility.ApplicationConstants;
  */
 @RestController
 @RequestMapping(value = "/policyholderPD/")
+@Slf4j
 public class PolicyHolderPDController {
-
-	public static final Logger LOG = LoggerFactory.getLogger(PolicyHolderPDController.class);
 
 	@Autowired
 	PolicyHolderPDService policyHolderPDService;
@@ -48,7 +50,7 @@ public class PolicyHolderPDController {
 			policyHolderPDResponseDto.setStatusMessage(ApplicationConstants.SUCCESS);
 			return policyHolderPDResponseDto;
 		} catch (Exception e) {
-			LOG.info("Invalid case id {} . Please retry with valid case Id", caseId);
+			log.info("Invalid case id {} . Please retry with valid case Id", caseId);
 			policyHolderPDResponseDto.setStatuscode(ApplicationConstants.INVALID_CASE_ID_CODE);
 			policyHolderPDResponseDto.setStatusMessage(ApplicationConstants.INVALID_CASE_ID_MESSAGE);
 			policyHolderPDResponseDto.setErrorMessage(e.getMessage());

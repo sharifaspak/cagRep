@@ -20,7 +20,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -54,16 +53,18 @@ import com.cag.service.NomineeFamDetService;
 import com.cag.service.PolicyHolderPDService;
 import com.cag.utility.ApplicationConstants;
 
+import lombok.extern.slf4j.Slf4j;
+
 /**
  * @author aspak.avesh.sharif
  *
  */
 @RestController
 @RequestMapping(value = "/ereporting/")
+@Slf4j
 public class EreportingController {
 
-	private static final Logger LOG = LoggerFactory.getLogger(EreportingController.class);
-
+	
 	@Autowired
 	ModelMapper modelmapper;
 
@@ -243,7 +244,7 @@ public class EreportingController {
 
 	@PostMapping(value = "/listCases")
 	public ListCasesResponseDto listCases(@RequestBody ListCasesRequestDto listCasesRequestDto) {
-		LOG.info(listCasesRequestDto.toString());
+		log.info(listCasesRequestDto.toString());
 		List<LeadSheet> caseList = ereportingService.listCases(listCasesRequestDto);
 		listCasesResponseDto.setCaseList(caseList);
 		listCasesResponseDto.setStatuscode(ApplicationConstants.SUCCESS_CODE);
@@ -305,7 +306,7 @@ public class EreportingController {
 			}
 			return ResponseEntity.ok("Success, generationsStatus: " + generationsStatus);
 		} catch (Exception e) {
-			LOG.error("Error while generateReport " + e.getMessage());
+			log.error("Error while generateReport " + e.getMessage());
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
 		}
 

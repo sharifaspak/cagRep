@@ -22,14 +22,16 @@ import com.cag.model.responsedto.DocumentsCollResDto;
 import com.cag.service.DocumentsCollService;
 import com.cag.utility.ApplicationConstants;
 
+import lombok.extern.slf4j.Slf4j;
+
 /**
  * @author aspak.avesh.sharif
  *
  */
 @RestController
 @RequestMapping(value = "/documentsCollected/")
+@Slf4j
 public class DocumentsCollController {
-	private static final Logger LOG = LoggerFactory.getLogger(DocumentsCollController.class);
 
 	@Autowired
 	ModelMapper modelmapper;
@@ -46,7 +48,7 @@ public class DocumentsCollController {
 			responseDto.setStatusMessage(ApplicationConstants.SUCCESS);
 			return responseDto;
 		} catch (Exception e) {
-			LOG.info("Invalid case id {} . Please retry with valid case Id", caseId);
+			log.info("Invalid case id {} . Please retry with valid case Id", caseId);
 			responseDto.setStatuscode(ApplicationConstants.INVALID_CASE_ID_CODE);
 			responseDto.setStatusMessage(ApplicationConstants.INVALID_CASE_ID_MESSAGE);
 			responseDto.setErrorMessage(e.getMessage());

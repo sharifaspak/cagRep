@@ -19,8 +19,11 @@ import org.springframework.web.bind.annotation.RestController;
 import com.cag.model.entity.NeighbNEmpRef;
 import com.cag.model.requestdto.NeighbNEmpRefReqDto;
 import com.cag.model.responsedto.NeighbNEmpRefResDto;
+import com.cag.security.JwtUserDetailsService;
 import com.cag.service.NeighbNEmpRefService;
 import com.cag.utility.ApplicationConstants;
+
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * @author aspak.avesh.sharif
@@ -28,9 +31,8 @@ import com.cag.utility.ApplicationConstants;
  */
 @RestController
 @RequestMapping(value = "neighbNEmpRef")
+@Slf4j
 public class NeighbNEmpRefController {
-
-	private static final Logger LOG = LoggerFactory.getLogger(NeighbNEmpRefController.class);
 
 	@Autowired
 	ModelMapper modelmapper;
@@ -48,7 +50,7 @@ public class NeighbNEmpRefController {
 			responseDto.setStatusMessage(ApplicationConstants.SUCCESS);
 			return responseDto;
 		} catch (Exception e) {
-			LOG.info("Invalid case id {} . Please retry with valid case Id", caseId);
+			log.info("Invalid case id {} . Please retry with valid case Id", caseId);
 			responseDto.setStatuscode(ApplicationConstants.INVALID_CASE_ID_CODE);
 			responseDto.setStatusMessage(ApplicationConstants.INVALID_CASE_ID_MESSAGE);
 			responseDto.setErrorMessage(e.getMessage());

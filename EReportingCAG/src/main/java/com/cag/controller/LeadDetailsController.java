@@ -19,8 +19,11 @@ import org.springframework.web.bind.annotation.RestController;
 import com.cag.model.entity.LeadDetails;
 import com.cag.model.requestdto.LeadDetailsRequestDto;
 import com.cag.model.responsedto.LeadDetailsResponseDto;
+import com.cag.security.JwtUserDetailsService;
 import com.cag.service.LeadDetailsService;
 import com.cag.utility.ApplicationConstants;
+
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * @author aspak.avesh.sharif
@@ -29,9 +32,8 @@ import com.cag.utility.ApplicationConstants;
 
 @RestController
 @RequestMapping(value = "/leadDetails/")
+@Slf4j
 public class LeadDetailsController {
-
-	private static final Logger LOG = LoggerFactory.getLogger(LeadDetailsController.class);
 
 	@Autowired
 	ModelMapper modelmapper;
@@ -52,7 +54,7 @@ public class LeadDetailsController {
 		return leadDetailsResponseDto;
 		}
 		catch(Exception e) {
-			LOG.info("Invalid case id {} . Please retry with valid case Id",caseId);
+			log.info("Invalid case id {} . Please retry with valid case Id",caseId);
 			leadDetailsResponseDto.setStatuscode(ApplicationConstants.INVALID_CASE_ID_CODE);
 			leadDetailsResponseDto.setStatusMessage(ApplicationConstants.INVALID_CASE_ID_MESSAGE);
 			leadDetailsResponseDto.setErrorMessage(e.getMessage());

@@ -11,12 +11,16 @@ import org.springframework.stereotype.Service;
 
 import com.cag.model.entity.PolicyHolderPD;
 import com.cag.repository.PolicyHolderPDRepository;
+import com.cag.security.JwtUserDetailsService;
+
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * @author aspak.avesh.sharif
  *
  */
 @Service
+@Slf4j
 public class PolicyHolderPDServiceImpl implements PolicyHolderPDService {
 
 	@Autowired

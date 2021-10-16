@@ -103,6 +103,10 @@
 			<artifactId>jjwt</artifactId>
 			<version>0.9.1</version>
 		</dependency>
+		<dependency>
+    <groupId>javax.xml.bind</groupId>
+    <artifactId>jaxb-api</artifactId>
+</dependency>
 	</dependencies>
 
 	<build>
@@ -120,7 +124,7 @@
 				</configuration>
 			</plugin>
 		</plugins>
-		<finalName>cag-exe-v7</finalName>
+		<finalName>cag-exe-v8</finalName>
 	</build>
 
 </project>

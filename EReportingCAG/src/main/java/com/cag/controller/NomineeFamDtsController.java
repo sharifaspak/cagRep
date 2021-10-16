@@ -19,8 +19,11 @@ import org.springframework.web.bind.annotation.RestController;
 import com.cag.model.entity.NomineeFamDts;
 import com.cag.model.requestdto.NomineeFamDtsReqDto;
 import com.cag.model.responsedto.NomineeFamDetResDto;
+import com.cag.security.JwtUserDetailsService;
 import com.cag.service.NomineeFamDetService;
 import com.cag.utility.ApplicationConstants;
+
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * @author aspak.avesh.sharif
@@ -28,10 +31,10 @@ import com.cag.utility.ApplicationConstants;
  */
 @RestController
 @RequestMapping(value = "/nomineeFamDetails/")
+@Slf4j
 public class NomineeFamDtsController {
 
-	private static final Logger LOG = LoggerFactory.getLogger(NomineeFamDtsController.class);
-
+	
 	@Autowired
 	ModelMapper modelmapper;
 
@@ -48,7 +51,7 @@ public class NomineeFamDtsController {
 			responseDto.setStatusMessage(ApplicationConstants.SUCCESS);
 			return responseDto;
 		} catch (Exception e) {
-			LOG.info("Invalid case id {} . Please retry with valid case Id", caseId);
+			log.info("Invalid case id {} . Please retry with valid case Id", caseId);
 			responseDto.setStatuscode(ApplicationConstants.INVALID_CASE_ID_CODE);
 			responseDto.setStatusMessage(ApplicationConstants.INVALID_CASE_ID_MESSAGE);
 			responseDto.setErrorMessage(e.getMessage());

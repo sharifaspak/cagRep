@@ -53,15 +53,19 @@ import com.cag.repository.LeadSheetRepository;
 import com.cag.repository.NeighbNEmpRefRep;
 import com.cag.repository.NomineeFamDetRep;
 import com.cag.repository.PolicyHolderPDRepository;
+import com.cag.security.JwtUserDetailsService;
 import com.cag.utility.ApplicationConstants;
 import com.cag.utility.CagUtils;
 import com.deepoove.poi.XWPFTemplate;
+
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * @author aspak.avesh.sharif
  *
  */
 @Service
+@Slf4j
 public class EreportingServiceImpl implements EreportingService {
 
 	private static final Logger LOG = LoggerFactory.getLogger(EreportingServiceImpl.class);

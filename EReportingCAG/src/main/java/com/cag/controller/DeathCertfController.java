@@ -22,15 +22,16 @@ import com.cag.model.responsedto.DeathCertfResDto;
 import com.cag.service.DeathCertfService;
 import com.cag.utility.ApplicationConstants;
 
+import lombok.extern.slf4j.Slf4j;
+
 /**
  * @author aspak.avesh.sharif
  *
  */
 @RestController
 @RequestMapping(value = "/deathCertf/")
+@Slf4j
 public class DeathCertfController {
-
-	private static final Logger LOG = LoggerFactory.getLogger(DeathCertfController.class);
 
 	@Autowired
 	ModelMapper modelmapper;
@@ -48,7 +49,7 @@ public class DeathCertfController {
 			responseDto.setStatusMessage(ApplicationConstants.SUCCESS);
 			return responseDto;
 		} catch (Exception e) {
-			LOG.info("Invalid case id {} . Please retry with valid case Id", caseId);
+			log.info("Invalid case id {} . Please retry with valid case Id", caseId);
 			responseDto.setStatuscode(ApplicationConstants.INVALID_CASE_ID_CODE);
 			responseDto.setStatusMessage(ApplicationConstants.INVALID_CASE_ID_MESSAGE);
 			responseDto.setErrorMessage(e.getMessage());
