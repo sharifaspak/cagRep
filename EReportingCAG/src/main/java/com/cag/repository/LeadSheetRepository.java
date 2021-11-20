@@ -19,12 +19,18 @@ import com.cag.model.entity.LeadSheet;
 @Repository
 public interface LeadSheetRepository extends MongoRepository<LeadSheet, String> {
 
-	List<LeadSheet> findByFieldAgentNameAndLeadStatusAndLeadRecievedDateBetween(String agentName, String leadStatus,Date from, Date to,Pageable pageable );
+	List<LeadSheet> findByFieldAgentNameAndLeadStatusAndLeadRecievedDateBetween(String agentName, String leadStatus,
+			Date from, Date to, Pageable pageable);
 
-	List<LeadSheet> findByLeadRecievedDateBetween(Date from, Date to,Pageable pageable);
-	
-	List<LeadSheet> findByBackendAgentNameAndLeadStatusAndLeadRecievedDateBetween(String agentName, String leadStatus,Date from, Date to,Pageable pageable );
-	
-	List<LeadSheet> findByLeadOwnerAndLeadStatusAndLeadRecievedDateBetween(String agentName, String leadStatus,Date from, Date to,Pageable pageable );
+	List<LeadSheet> findByLeadStatusAndLeadRecievedDateBetween(String leadStatus, Date from, Date to,
+			Pageable pageable);
+
+	List<LeadSheet> findByBackendAgentNameAndLeadStatusAndLeadRecievedDateBetween(String agentName, String leadStatus,
+			Date from, Date to, Pageable pageable);
+
+	List<LeadSheet> findByLeadOwnerAndLeadStatusAndLeadRecievedDateBetween(String agentName, String leadStatus,
+			Date from, Date to, Pageable pageable);
+
+	List<LeadSheet> findByPolicyHolderName(String policyHolderName, Pageable paging);
 
 }

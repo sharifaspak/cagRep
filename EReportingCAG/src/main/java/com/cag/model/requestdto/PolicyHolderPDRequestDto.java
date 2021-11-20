@@ -40,5 +40,6 @@ public class PolicyHolderPDRequestDto {
 	private Date policyIssuanceDate;
 	private String policyHolderSumAssured;
 	private String  insurancePurpose;
-
+	private String proposalFormAddress;
+	private String claimFormAddress;
 }

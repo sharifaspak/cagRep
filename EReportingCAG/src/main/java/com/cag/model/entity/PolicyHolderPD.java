@@ -39,4 +39,7 @@ public class PolicyHolderPD extends Audit {
 	private Date policyIssuanceDate;
 	private String policyHolderSumAssured;
 	private String  insurancePurpose;
+	private String proposalFormAddress;
+	private String claimFormAddress;
+	
 	}

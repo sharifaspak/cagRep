@@ -20,6 +20,7 @@ public class ListCasesRequestDto {
 	private String channel;
 	private String agentName;
 	private String status;
+	private String policyHolderName;
 	private String role;
 	private Date from;
 	private Date to;

@@ -53,7 +53,6 @@ import com.cag.repository.LeadSheetRepository;
 import com.cag.repository.NeighbNEmpRefRep;
 import com.cag.repository.NomineeFamDetRep;
 import com.cag.repository.PolicyHolderPDRepository;
-import com.cag.security.JwtUserDetailsService;
 import com.cag.utility.ApplicationConstants;
 import com.cag.utility.CagUtils;
 import com.deepoove.poi.XWPFTemplate;
@@ -111,24 +110,28 @@ public class EreportingServiceImpl implements EreportingService {
 
 		Pageable paging = PageRequest.of(listCasesRequestDto.getPageNumber(), listCasesRequestDto.getNumberOfrecords());
 		LOG.info("user role in request is {}", listCasesRequestDto.getRole());
-		switch (listCasesRequestDto.getRole()) {
-		case ApplicationConstants.FIELD_AGENT:
-			return caseRepository.findByFieldAgentNameAndLeadStatusAndLeadRecievedDateBetween(
-					listCasesRequestDto.getAgentName(), ApplicationConstants.FIELD_STATUS,
-					listCasesRequestDto.getFrom(), listCasesRequestDto.getTo(), paging);
-		case ApplicationConstants.BACKEND_AGENT:
-			return caseRepository.findByBackendAgentNameAndLeadStatusAndLeadRecievedDateBetween(
-					listCasesRequestDto.getAgentName(), ApplicationConstants.BACKEND_STATUS,
-					listCasesRequestDto.getFrom(), listCasesRequestDto.getTo(), paging);
-		case ApplicationConstants.LEAD_OWNER:
-			return caseRepository.findByLeadOwnerAndLeadStatusAndLeadRecievedDateBetween(
-					listCasesRequestDto.getAgentName(), ApplicationConstants.OWNER_STATUS,
-					listCasesRequestDto.getFrom(), listCasesRequestDto.getTo(), paging);
-		default:
-			return caseRepository.findByLeadRecievedDateBetween(listCasesRequestDto.getFrom(),
-					listCasesRequestDto.getTo(), paging);
+		if (!(null == listCasesRequestDto.getPolicyHolderName()
+				|| listCasesRequestDto.getPolicyHolderName().isEmpty())) {
+			return caseRepository.findByPolicyHolderName(listCasesRequestDto.getPolicyHolderName(), paging);
+		} else {
+			switch (listCasesRequestDto.getRole()) {
+			case ApplicationConstants.FIELD_AGENT:
+				return caseRepository.findByFieldAgentNameAndLeadStatusAndLeadRecievedDateBetween(
+						listCasesRequestDto.getAgentName(), ApplicationConstants.FIELD_STATUS,
+						listCasesRequestDto.getFrom(), listCasesRequestDto.getTo(), paging);
+			case ApplicationConstants.BACKEND_AGENT:
+				return caseRepository.findByBackendAgentNameAndLeadStatusAndLeadRecievedDateBetween(
+						listCasesRequestDto.getAgentName(), ApplicationConstants.BACKEND_STATUS,
+						listCasesRequestDto.getFrom(), listCasesRequestDto.getTo(), paging);
+			case ApplicationConstants.LEAD_OWNER:
+				return caseRepository.findByLeadOwnerAndLeadStatusAndLeadRecievedDateBetween(
+						listCasesRequestDto.getAgentName(), ApplicationConstants.OWNER_STATUS,
+						listCasesRequestDto.getFrom(), listCasesRequestDto.getTo(), paging);
+			default:
+				return caseRepository.findByLeadStatusAndLeadRecievedDateBetween(listCasesRequestDto.getStatus(),
+						listCasesRequestDto.getFrom(), listCasesRequestDto.getTo(), paging);
+			}
 		}
-
 	}
 
 	@Override
@@ -205,8 +208,8 @@ public class EreportingServiceImpl implements EreportingService {
 			MultipartFile multipartFile = new CommonsMultipartFile(fileItem);
 
 			String fileId = fileManager.uploadFile(multipartFile, id);
-			
-			System.out.println("file uploaded successfully"+fileId);
+
+			System.out.println("file uploaded successfully" + fileId);
 
 		} catch (IOException e) { // TODO Auto-generated catch block
 			System.out.println("Failed while preparing report step 0");
@@ -241,7 +244,7 @@ public class EreportingServiceImpl implements EreportingService {
 			Optional<NomineeFamDts> nomineeFamDts, Optional<PolicyHolderPD> policyHolderPD,
 			Optional<DocumentsColl> documentsColl, String outFileName) throws IOException {
 
-		XWPFTemplate.compile(rootDir + "/template_final_v1.docx").render(new HashMap<String, Object>() {
+		XWPFTemplate.compile(rootDir + "/template_final_v2.docx").render(new HashMap<String, Object>() {
 			{
 				// XWPFTemplate.compile("/tmp/reports/templateV2.docx").render(new
 				// HashMap<String, Object>(){{

@@ -16,6 +16,7 @@ public class NomineeFamDts extends Audit {
 	private String metSalutation;
 	private String metPersonName;
 	private String metPersonRelationship;
+	private String metPersonCauseOfDeath;
 	private List<NomineeDetails> nomineeDetailsList;
 	private List<FamilyDetails> familyDetailsList;
 

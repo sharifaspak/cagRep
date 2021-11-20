@@ -39,5 +39,6 @@ public class LeadSheet {
 	private String agencyContact;
 	private String agencyConclusion;
 	private String agencyRemark;
+	private String leadCauseOfDeath;
 		
 }
