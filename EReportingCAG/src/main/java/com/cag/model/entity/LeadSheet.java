@@ -3,6 +3,7 @@
  */
 package com.cag.model.entity;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 import org.springframework.data.annotation.Id;
@@ -28,7 +29,7 @@ public class LeadSheet {
 	private String policyHolderName;
 	private String proposalAddress;
 	private String policyNumber;
-	private Date leadRecievedDate;
+	private LocalDate leadRecievedDate;
 	private String leadOwner;
 	private String partnerName;
 	private String leadStatus;

@@ -150,7 +150,7 @@ public class EreportingController {
 				openCases.setPolicyHolderName(row.getCell(3).getStringCellValue());
 				openCases.setProposalAddress(row.getCell(4).getStringCellValue());
 				openCases.setLeadOwner(row.getCell(5).getStringCellValue());
-				openCases.setLeadRecievedDate(row.getCell(6).getDateCellValue());
+				openCases.setLeadRecievedDate(row.getCell(6).getLocalDateTimeCellValue().toLocalDate().minusDays(1));
 				openCases.setLeadStatus(row.getCell(7).getStringCellValue());
 				openCases.setFieldAgentName(row.getCell(8).getStringCellValue());
 				openCases.setBackendAgentName(row.getCell(9).getStringCellValue());
