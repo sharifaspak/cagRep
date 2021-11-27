@@ -41,5 +41,17 @@ public class LeadSheet {
 	private String agencyConclusion;
 	private String agencyRemark;
 	private String leadCauseOfDeath;
+	private String claimNo;
+	private String investigationType;
+	private String state;
+	private String city;
+	private String claimentName;
+	private String claimFormAdd;
+	private LocalDate policyIssuanceDate;
+	private String leadSumAssured;
+	private String proposalContact;
+	private String claimFormContact;
+	private String proposalEmail;
+	private String claimFormEmail;
 		
 }

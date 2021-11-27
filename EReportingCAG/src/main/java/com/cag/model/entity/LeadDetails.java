@@ -21,6 +21,10 @@ public class LeadDetails extends Audit {
 	private String state;
 	private String city;
 	private String agentName;
+	private String proposalFormAddress;
+	private String claimFormAddress;
+	private String proposalFormContact;
+	private String claimFormContact;
 
 
 }

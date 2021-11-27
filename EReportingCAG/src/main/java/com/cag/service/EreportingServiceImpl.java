@@ -11,6 +11,7 @@ import java.io.OutputStream;
 import java.nio.file.Files;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
@@ -269,7 +270,9 @@ public class EreportingServiceImpl implements EreportingService {
 						CagUtils.convertToLocalDateViaInstant(policyHolderPD.get().getPolicyIssuanceDate()));
 				put("state", leadDetails.get().getState());
 				put("city", leadDetails.get().getCity());
-				put("reportGenDt", LocalDate.now());
+				put("reportGenDt", CagUtils.convertToLocalDateViaInstant(new Date()));
+				put("claimFormAddress", leadDetails.get().getClaimFormAddress());
+				put("proposalFormAddress", leadDetails.get().getProposalFormAddress());
 				put("policyHolderMaritalStatus", policyHolderPD.get().getPolicyHolderMaritalStatus());
 				put("policyHolderAnnualIncome", policyHolderPD.get().getPolicyHolderAnnualIncome());
 				put("policyHoldereducationQualification", policyHolderPD.get().getPolicyHoldereducationQualification());
@@ -353,7 +356,7 @@ public class EreportingServiceImpl implements EreportingService {
 
 				}
 				put("policyHolderAddressTenure", policyHolderPD.get().getPolicyHolderAddressTenure());
-				put("policyHolderAddressTenure", policyHolderPD.get().getPolicyHolderStandardOfLiving());
+				put("policyHolderStandardOfLiving", policyHolderPD.get().getPolicyHolderStandardOfLiving());
 
 				put("kycDocumentListLA", documentsColl.get().getKycDocumentListLA());
 

@@ -7,6 +7,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.Period;
 import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
 import lombok.extern.slf4j.Slf4j;
@@ -18,10 +19,14 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class CagUtils {
 
-	public static LocalDate convertToLocalDateViaInstant(Date dateToConvert) {
+	public static String convertToLocalDateViaInstant(Date dateToConvert) {
 
-		return (dateToConvert != null) ? dateToConvert.toInstant().atZone(ZoneId.systemDefault()).toLocalDate()
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+       // return localDate.format(formatter);
+		return (dateToConvert != null) ? dateToConvert.toInstant().atZone(ZoneId.systemDefault()).toLocalDate().format(formatter)
 				: null;
+		
+		
 	}
 	public static String calculateAge(Date birthDate, Date dateOfDeath) {
 		log.info("birthDate and  dateOfDeath is {} {}",birthDate,dateOfDeath);
