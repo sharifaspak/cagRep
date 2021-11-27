@@ -129,7 +129,7 @@
 				</configuration>
 			</plugin>
 		</plugins>
-		<finalName>cag-exe-v13</finalName>
+		<finalName>cag-exe-v14</finalName>
 	</build>
 
 </project>

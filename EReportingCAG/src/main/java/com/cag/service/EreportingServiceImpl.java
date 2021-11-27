@@ -273,6 +273,7 @@ public class EreportingServiceImpl implements EreportingService {
 				put("reportGenDt", CagUtils.convertToLocalDateViaInstant(new Date()));
 				put("claimFormAddress", leadDetails.get().getClaimFormAddress());
 				put("proposalFormAddress", leadDetails.get().getProposalFormAddress());
+				put("proposalFormContact", leadDetails.get().getProposalFormContact());
 				put("policyHolderMaritalStatus", policyHolderPD.get().getPolicyHolderMaritalStatus());
 				put("policyHolderAnnualIncome", policyHolderPD.get().getPolicyHolderAnnualIncome());
 				put("policyHoldereducationQualification", policyHolderPD.get().getPolicyHoldereducationQualification());
@@ -305,7 +306,9 @@ public class EreportingServiceImpl implements EreportingService {
 				put("metSalutation", nomineeFamDts.get().getMetSalutation());
 				put("metPersonName", nomineeFamDts.get().getMetPersonName());
 				put("metPersonRelationship", nomineeFamDts.get().getMetPersonRelationship());
-
+				put("metPersonCauseOfDeath", nomineeFamDts.get().getMetPersonCauseOfDeath());
+				put("metPersonObservation", nomineeFamDts.get().getMetPersonCauseOfDeath());
+				
 				put("policyHolderPlaceOfDeath", policyHolderPD.get().getPolicyHolderPlaceOfDeath());
 
 				if (!lastDocHosp.get().getLastDocList().isEmpty()) {
@@ -398,6 +401,7 @@ public class EreportingServiceImpl implements EreportingService {
 				if (!lastDocHosp.get().getLastDocList().isEmpty()) {
 					for (int i = 0; i < lastDocHosp.get().getLastDocList().size(); i++) {
 						put("lastDocplaceName" + i, lastDocHosp.get().getLastDocList().get(i).getPlaceName());
+						put("lastDocObservation" + i, lastDocHosp.get().getLastDocList().get(i).getObservation());
 						put("lastDocaddress" + i, lastDocHosp.get().getLastDocList().get(i).getAddress());
 						put("lastDoccontactNumber" + i, lastDocHosp.get().getLastDocList().get(i).getContactNumber());
 						put("lastDocFromDate" + i, CagUtils
@@ -421,6 +425,7 @@ public class EreportingServiceImpl implements EreportingService {
 				put("policyHolderPlaceOfCreamation", policyHolderPD.get().getPolicyHolderPlaceOfCreamation());
 
 				put("issuingAuthorityName", deathCertf.get().getIssuingAuthorityName());
+				put("personMet", deathCertf.get().getPersonMet());
 				put("anganWadiName", deathCertf.get().getAnganWadiName());
 				put("anaganWadiContact", deathCertf.get().getAnaganWadiContact());
 				put("anmName", deathCertf.get().getAnmName());
@@ -435,6 +440,7 @@ public class EreportingServiceImpl implements EreportingService {
 				put("newsPapCutCol", documentsColl.get().getNewsPapCutCol());
 				put("newsPaperRemark", documentsColl.get().getNewsPaperRemark());
 
+				put("leadCauseOfDeath", leadSheet.get().getLeadCauseOfDeath());
 				put("agencyConclusion", leadSheet.get().getAgencyConclusion());
 				put("agencyRemark", leadSheet.get().getAgencyRemark());
 				put("agencyName", leadSheet.get().getAgencyName());
