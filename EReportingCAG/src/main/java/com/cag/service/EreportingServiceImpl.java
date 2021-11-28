@@ -403,7 +403,8 @@ public class EreportingServiceImpl implements EreportingService {
 						put("lastDocplaceName" + i, lastDocHosp.get().getLastDocList().get(i).getPlaceName());
 						put("lastDocObservation" + i, lastDocHosp.get().getLastDocList().get(i).getObservation());
 						put("lastDocaddress" + i, lastDocHosp.get().getLastDocList().get(i).getAddress());
-						put("lastDoccontactNumber" + i, lastDocHosp.get().getLastDocList().get(i).getContactNumber());
+						put("lastDocName" + i, lastDocHosp.get().getLastDocList().get(i).getName());
+						put("lastDocContactNumber" + i, lastDocHosp.get().getLastDocList().get(i).getContactNumber());
 						put("lastDocFromDate" + i, CagUtils
 								.convertToLocalDateViaInstant(lastDocHosp.get().getLastDocList().get(i).getFromDate()));
 						put("lastDocToDate" + i, CagUtils
@@ -435,7 +436,7 @@ public class EreportingServiceImpl implements EreportingService {
 				put("sarpanchName", deathCertf.get().getSarpanchName());
 				put("sarpanchContact", deathCertf.get().getSarpanchContact());
 				put("gramSachiveOrTalathiName", deathCertf.get().getGramSachiveOrTalathiName());
-				put("gramSachiveOrTalathiContact ", deathCertf.get().getGramSachiveOrTalathiContact());
+				put("gramSachiveOrTalathiContact", deathCertf.get().getGramSachiveOrTalathiContact());
 
 				put("newsPapCutCol", documentsColl.get().getNewsPapCutCol());
 				put("newsPaperRemark", documentsColl.get().getNewsPaperRemark());
