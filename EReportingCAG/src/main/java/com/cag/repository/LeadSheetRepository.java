@@ -7,7 +7,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.mongodb.repository.MongoRepository;
+import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.stereotype.Repository;
 
 import com.cag.model.entity.LeadSheet;
@@ -17,7 +17,7 @@ import com.cag.model.entity.LeadSheet;
  *
  */
 @Repository
-public interface LeadSheetRepository extends MongoRepository<LeadSheet, String> {
+public interface LeadSheetRepository extends PagingAndSortingRepository<LeadSheet, String> {
 
 	List<LeadSheet> findByFieldAgentNameAndLeadStatusAndLeadRecievedDateBetween(String agentName, String leadStatus,
 			Date from, Date to, Pageable pageable);

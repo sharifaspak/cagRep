@@ -9,7 +9,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.file.Files;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -29,6 +28,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
@@ -109,7 +109,8 @@ public class EreportingServiceImpl implements EreportingService {
 	@Override
 	public List<LeadSheet> listCases(ListCasesRequestDto listCasesRequestDto) {
 
-		Pageable paging = PageRequest.of(listCasesRequestDto.getPageNumber(), listCasesRequestDto.getNumberOfrecords());
+		Pageable paging = PageRequest.of(listCasesRequestDto.getPageNumber(), listCasesRequestDto.getNumberOfrecords(),
+				Sort.by("leadRecievedDate").descending());
 		LOG.info("user role in request is {}", listCasesRequestDto.getRole());
 		if (!(null == listCasesRequestDto.getPolicyHolderName()
 				|| listCasesRequestDto.getPolicyHolderName().isEmpty())) {
@@ -138,7 +139,7 @@ public class EreportingServiceImpl implements EreportingService {
 	@Override
 	public List<LeadSheet> uploadCases(List<LeadSheet> casesList) {
 
-		return caseRepository.saveAll(casesList);
+		return (List<LeadSheet>) caseRepository.saveAll(casesList);
 
 	}
 
@@ -308,7 +309,7 @@ public class EreportingServiceImpl implements EreportingService {
 				put("metPersonRelationship", nomineeFamDts.get().getMetPersonRelationship());
 				put("metPersonCauseOfDeath", nomineeFamDts.get().getMetPersonCauseOfDeath());
 				put("metPersonObservation", nomineeFamDts.get().getMetPersonCauseOfDeath());
-				
+
 				put("policyHolderPlaceOfDeath", policyHolderPD.get().getPolicyHolderPlaceOfDeath());
 
 				if (!lastDocHosp.get().getLastDocList().isEmpty()) {
