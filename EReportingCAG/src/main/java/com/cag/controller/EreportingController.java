@@ -101,10 +101,10 @@ public class EreportingController {
 	FileManager fileManager;
 
 	@RequestMapping(method = RequestMethod.POST, value = "/uploadCases")
-	public void uploadCases(@RequestParam("file") MultipartFile files) {
+	public String uploadCases(@RequestParam("file") MultipartFile files) {
 
 		System.out.println("file upload started - 1");
-
+		List<String> duplicateUploads = new ArrayList<String>();
 		XSSFWorkbook workbook;
 		try {
 			workbook = new XSSFWorkbook(files.getInputStream());
@@ -139,117 +139,123 @@ public class EreportingController {
 				DeathCertf deathCertf = new DeathCertf();
 				DocumentsColl documentsColl = new DocumentsColl();
 				XSSFRow row = worksheet.getRow(i);
+				if (null ==ereportingService.fetchLead(row.getCell(3).getStringCellValue())) {
+					// New as per comments start
+					openCases.setPartnerName(row.getCell(0).getStringCellValue());
 
-				// New as per comments start
-				openCases.setPartnerName(row.getCell(0).getStringCellValue());
-				openCases.setCaseId(row.getCell(1).getStringCellValue());
-				openCases.setPolicyHolderName(row.getCell(2).getStringCellValue());
-				openCases.setPolicyNumber(row.getCell(3).getStringCellValue());
-				openCases.setClaimNo(row.getCell(4).getStringCellValue());
-				openCases.setInvestigationType(row.getCell(5).getStringCellValue());
-				openCases.setState(row.getCell(6).getStringCellValue());
-				openCases.setCity(row.getCell(7).getStringCellValue());
-				openCases.setLeadRecievedDate(row.getCell(8).getLocalDateTimeCellValue().toLocalDate().minusDays(1));
-				openCases.setFieldAgentName(row.getCell(9).getStringCellValue());
-				openCases.setBackendAgentName(row.getCell(10).getStringCellValue());
-				openCases.setLeadOwner(row.getCell(11).getStringCellValue());
-				openCases.setClaimentName(row.getCell(12).getStringCellValue());
-				openCases.setProposalContact(row.getCell(13).getStringCellValue());
-				openCases.setProposalAddress(row.getCell(14).getStringCellValue());
-				openCases.setClaimFormContact(row.getCell(15).getStringCellValue());
-				openCases.setClaimFormAdd(row.getCell(16).getStringCellValue());
-				openCases.setPolicyIssuanceDate(row.getCell(17).getLocalDateTimeCellValue().toLocalDate());
-				openCases.setLeadCauseOfDeath(row.getCell(18).getStringCellValue());
-				openCases.setLeadSumAssured(row.getCell(19).getStringCellValue());
-				openCases.setClaimFormEmail(row.getCell(20).getStringCellValue());
-				openCases.setProposalEmail(row.getCell(21).getStringCellValue());
-				openCases.setLeadStatus("field");
-				System.out.println("file upload started - 5");
-				openCases.setFolderId(fileManager.getFolderId(row.getCell(1).getStringCellValue()));
-				System.out.println("file upload started - 6");
+					// openCases.setCaseId(row.getCell(3).getStringCellValue());
+					openCases.setCaseId(row.getCell(3).getStringCellValue());
+					openCases.setPolicyHolderName(row.getCell(2).getStringCellValue());
+					openCases.setPolicyNumber(row.getCell(3).getStringCellValue());
+					openCases.setClaimNo(row.getCell(4).getStringCellValue());
+					openCases.setInvestigationType(row.getCell(5).getStringCellValue());
+					openCases.setState(row.getCell(6).getStringCellValue());
+					openCases.setCity(row.getCell(7).getStringCellValue());
+					openCases
+							.setLeadRecievedDate(row.getCell(8).getLocalDateTimeCellValue().toLocalDate().minusDays(1));
+					openCases.setFieldAgentName(row.getCell(9).getStringCellValue());
+					openCases.setBackendAgentName(row.getCell(10).getStringCellValue());
+					openCases.setLeadOwner(row.getCell(11).getStringCellValue());
+					openCases.setClaimentName(row.getCell(12).getStringCellValue());
+					openCases.setProposalContact(row.getCell(13).getStringCellValue());
+					openCases.setProposalAddress(row.getCell(14).getStringCellValue());
+					openCases.setClaimFormContact(row.getCell(15).getStringCellValue());
+					openCases.setClaimFormAdd(row.getCell(16).getStringCellValue());
+					openCases.setPolicyIssuanceDate(row.getCell(17).getLocalDateTimeCellValue().toLocalDate());
+					openCases.setLeadCauseOfDeath(row.getCell(18).getStringCellValue());
+					openCases.setLeadSumAssured(row.getCell(19).getStringCellValue());
+					openCases.setClaimFormEmail(row.getCell(20).getStringCellValue());
+					openCases.setProposalEmail(row.getCell(21).getStringCellValue());
+					openCases.setLeadStatus("field");
+					System.out.println("file upload started - 5");
+					openCases.setFolderId(fileManager.getFolderId(row.getCell(1).getStringCellValue()));
+					System.out.println("file upload started - 6");
 
-				casesList.add(openCases);
-				System.out.println(openCases.toString());
+					casesList.add(openCases);
+					System.out.println(openCases.toString());
 
-				// lead details
-				leadDetails.setInsuranceCompany(row.getCell(0).getStringCellValue());
-				leadDetails.setCaseId(row.getCell(1).getStringCellValue());
-				leadDetails.setLaName(row.getCell(2).getStringCellValue());
-				leadDetails.setPolicyNumber(row.getCell(3).getStringCellValue());
-				leadDetails.setInvestigationType(row.getCell(5).getStringCellValue());
-				leadDetails.setState(row.getCell(6).getStringCellValue());
-				leadDetails.setCity(row.getCell(7).getStringCellValue());
-				leadDetails.setCaseOwner(row.getCell(11).getStringCellValue());
-				leadDetails.setNomineeContact(row.getCell(15).getStringCellValue());
-				leadDetails.setClaimFormContact(row.getCell(15).getStringCellValue());
-				leadDetails.setProposalFormContact(row.getCell(13).getStringCellValue());
-				leadDetails.setNomineeAddress(row.getCell(16).getStringCellValue());
-				leadDetails.setProposalFormAddress(row.getCell(14).getStringCellValue());
-				leadDetails.setClaimFormAddress(row.getCell(16).getStringCellValue());
-				leadDetails.setUpdatedBy("Admin");
-				leadDetails.setUpdatedDate(new Date());
+					// lead details
+					leadDetails.setInsuranceCompany(row.getCell(0).getStringCellValue());
+					leadDetails.setCaseId(row.getCell(3).getStringCellValue());
+					leadDetails.setLaName(row.getCell(2).getStringCellValue());
+					leadDetails.setPolicyNumber(row.getCell(3).getStringCellValue());
+					leadDetails.setInvestigationType(row.getCell(5).getStringCellValue());
+					leadDetails.setState(row.getCell(6).getStringCellValue());
+					leadDetails.setCity(row.getCell(7).getStringCellValue());
+					leadDetails.setCaseOwner(row.getCell(11).getStringCellValue());
+					leadDetails.setNomineeContact(row.getCell(15).getStringCellValue());
+					leadDetails.setClaimFormContact(row.getCell(15).getStringCellValue());
+					leadDetails.setProposalFormContact(row.getCell(13).getStringCellValue());
+					leadDetails.setNomineeAddress(row.getCell(16).getStringCellValue());
+					leadDetails.setProposalFormAddress(row.getCell(14).getStringCellValue());
+					leadDetails.setClaimFormAddress(row.getCell(16).getStringCellValue());
+					leadDetails.setUpdatedBy("Admin");
+					leadDetails.setUpdatedDate(new Date());
 
-				leadDetailsList.add(leadDetails);
+					leadDetailsList.add(leadDetails);
 
-				// Policy holder pd
+					// Policy holder pd
 
-				policyHolderPD.setCaseId(row.getCell(1).getStringCellValue());
-				policyHolderPD.setPolicyHolderName(row.getCell(2).getStringCellValue());
-				policyHolderPD.setPolicyIssuanceDate(row.getCell(17).getDateCellValue());
-				policyHolderPD.setCaseOwner(row.getCell(11).getStringCellValue());
-				policyHolderPD.setProposalFormAddress(row.getCell(14).getStringCellValue());
-				policyHolderPD.setClaimFormAddress(row.getCell(16).getStringCellValue());
-				policyHolderPD.setPolicyHolderSumAssured(row.getCell(19).getStringCellValue());
-				policyHolderPD.setUpdatedBy("Admin");
-				policyHolderPD.setUpdatedDate(new Date());
-				policyHolderPD.setPolicyNumber(row.getCell(3).getStringCellValue());
-				policyHolderPDList.add(policyHolderPD);
+					policyHolderPD.setCaseId(row.getCell(3).getStringCellValue());
+					policyHolderPD.setPolicyHolderName(row.getCell(2).getStringCellValue());
+					policyHolderPD.setPolicyIssuanceDate(row.getCell(17).getDateCellValue());
+					policyHolderPD.setCaseOwner(row.getCell(11).getStringCellValue());
+					policyHolderPD.setProposalFormAddress(row.getCell(14).getStringCellValue());
+					policyHolderPD.setClaimFormAddress(row.getCell(16).getStringCellValue());
+					policyHolderPD.setPolicyHolderSumAssured(row.getCell(19).getStringCellValue());
+					policyHolderPD.setUpdatedBy("Admin");
+					policyHolderPD.setUpdatedDate(new Date());
+					policyHolderPD.setPolicyNumber(row.getCell(3).getStringCellValue());
+					policyHolderPDList.add(policyHolderPD);
 
-				System.out.println(openCases.toString());
+					System.out.println(openCases.toString());
 
-				// Nominee family details
+					// Nominee family details
 
-				nomineeFamDts.setCaseId(row.getCell(1).getStringCellValue());
-				nomineeFamDts.setCaseOwner(row.getCell(11).getStringCellValue());
-				nomineeFamDts.setUpdatedBy("Admin");
-				nomineeFamDtsList.add(nomineeFamDts);
+					nomineeFamDts.setCaseId(row.getCell(3).getStringCellValue());
+					nomineeFamDts.setCaseOwner(row.getCell(11).getStringCellValue());
+					nomineeFamDts.setUpdatedBy("Admin");
+					nomineeFamDtsList.add(nomineeFamDts);
 
-				// Habits and Medical history
+					// Habits and Medical history
 
-				habitsNMedHist.setCaseId(row.getCell(1).getStringCellValue());
-				habitsNMedHist.setCaseOwner(row.getCell(11).getStringCellValue());
-				habitsNMedHist.setUpdatedBy("Admin");
-				habitsNMedHistList.add(habitsNMedHist);
+					habitsNMedHist.setCaseId(row.getCell(3).getStringCellValue());
+					habitsNMedHist.setCaseOwner(row.getCell(11).getStringCellValue());
+					habitsNMedHist.setUpdatedBy("Admin");
+					habitsNMedHistList.add(habitsNMedHist);
 
-				// Neighbour and Emp ref details
+					// Neighbour and Emp ref details
 
-				neighbNEmpRef.setCaseId(row.getCell(1).getStringCellValue());
-				neighbNEmpRef.setCaseOwner(row.getCell(11).getStringCellValue());
-				neighbNEmpRef.setUpdatedBy("Admin");
-				neighbNEmpRefList.add(neighbNEmpRef);
+					neighbNEmpRef.setCaseId(row.getCell(3).getStringCellValue());
+					neighbNEmpRef.setCaseOwner(row.getCell(11).getStringCellValue());
+					neighbNEmpRef.setUpdatedBy("Admin");
+					neighbNEmpRefList.add(neighbNEmpRef);
 
-				// Neighbour and Emp ref details
+					// Neighbour and Emp ref details
 
-				lastDocHosp.setCaseId(row.getCell(1).getStringCellValue());
-				lastDocHosp.setCaseOwner(row.getCell(11).getStringCellValue());
-				lastDocHosp.setUpdatedBy("Admin");
-				lastDocHospList.add(lastDocHosp);
+					lastDocHosp.setCaseId(row.getCell(3).getStringCellValue());
+					lastDocHosp.setCaseOwner(row.getCell(11).getStringCellValue());
+					lastDocHosp.setUpdatedBy("Admin");
+					lastDocHospList.add(lastDocHosp);
 
-				// DeathCertf Details
+					// DeathCertf Details
 
-				deathCertf.setCaseId(row.getCell(1).getStringCellValue());
-				deathCertf.setCaseOwner(row.getCell(11).getStringCellValue());
-				deathCertf.setUpdatedBy("Admin");
-				deathCertfList.add(deathCertf);
+					deathCertf.setCaseId(row.getCell(3).getStringCellValue());
+					deathCertf.setCaseOwner(row.getCell(11).getStringCellValue());
+					deathCertf.setUpdatedBy("Admin");
+					deathCertfList.add(deathCertf);
 
-				// Documents collected
+					// Documents collected
 
-				documentsColl.setCaseId(row.getCell(1).getStringCellValue());
-				documentsColl.setCaseOwner(row.getCell(11).getStringCellValue());
-				documentsColl.setUpdatedBy("Admin");
-				documentsCollList.add(documentsColl);
-
+					documentsColl.setCaseId(row.getCell(3).getStringCellValue());
+					documentsColl.setCaseOwner(row.getCell(11).getStringCellValue());
+					documentsColl.setUpdatedBy("Admin");
+					documentsCollList.add(documentsColl);
+				} else {
+					duplicateUploads.add(row.getCell(3).getStringCellValue());
+				}
 			}
+
 			ereportingService.uploadCases(casesList);
 			leadDetailsService.updateLeadDetails(leadDetailsList);
 			policyHolderPDService.updatePolicyHolderPD(policyHolderPDList);
@@ -266,6 +272,7 @@ public class EreportingController {
 
 			// e.printStackTrace();
 		}
+		return "duplicates : " + duplicateUploads.toString();
 
 	}
 

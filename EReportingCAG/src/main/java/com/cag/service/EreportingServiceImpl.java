@@ -148,7 +148,12 @@ public class EreportingServiceImpl implements EreportingService {
 
 		List<LeadSheet> leadDetails = new ArrayList<>();
 		Optional<LeadSheet> lead = caseRepository.findById(id);
+		try {
 		leadDetails.add(lead.get());
+		}
+		catch (Exception e){
+			return null;
+		}
 		return leadDetails;
 	}
 

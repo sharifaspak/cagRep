@@ -38,8 +38,10 @@ public class PolicyHolderPD extends Audit {
 	private String policyHolderOccupationDocuments;
 	private Date policyIssuanceDate;
 	private String policyHolderSumAssured;
-	private String  insurancePurpose;
+	private String insurancePurpose;
 	private String proposalFormAddress;
 	private String claimFormAddress;
-	
-	}
+	private YearsNMonths policyHolderAddressTenure_obj;
+	private YearsNMonths policyHolderOccupationTenure_obj;
+
+}

@@ -22,6 +22,7 @@ public class NomineeDetails {
 	private String residingTenure;
 	private String residenceType;
 	private String nomineeRelation;
+	private YearsNMonths residingTenure_obj;
 	
 
 }

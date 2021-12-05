@@ -5,6 +5,8 @@ package com.cag.model.requestdto;
 
 import java.util.Date;
 
+import com.cag.model.entity.YearsNMonths;
+
 import lombok.Data;
 
 /**
@@ -42,4 +44,7 @@ public class PolicyHolderPDRequestDto {
 	private String  insurancePurpose;
 	private String proposalFormAddress;
 	private String claimFormAddress;
+	private YearsNMonths policyHolderAddressTenure_obj;
+	private YearsNMonths policyHolderOccupationTenure_obj;
+
 }

@@ -14,6 +14,8 @@ public final class PastMedicalHistory {
 
 	private String diseasaeName;
 	private String duration;
+	private String treatmentDocName;
+	private String treatmentPlaceName;
 	private String treatmentLocation;
-
+	private YearsNMonths duration_obj;
 }
