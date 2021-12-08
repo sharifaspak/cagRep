@@ -149,9 +149,8 @@ public class EreportingServiceImpl implements EreportingService {
 		List<LeadSheet> leadDetails = new ArrayList<>();
 		Optional<LeadSheet> lead = caseRepository.findById(id);
 		try {
-		leadDetails.add(lead.get());
-		}
-		catch (Exception e){
+			leadDetails.add(lead.get());
+		} catch (Exception e) {
 			return null;
 		}
 		return leadDetails;
@@ -283,7 +282,8 @@ public class EreportingServiceImpl implements EreportingService {
 				put("policyHolderMaritalStatus", policyHolderPD.get().getPolicyHolderMaritalStatus());
 				put("policyHolderAnnualIncome", policyHolderPD.get().getPolicyHolderAnnualIncome());
 				put("policyHoldereducationQualification", policyHolderPD.get().getPolicyHoldereducationQualification());
-				if (!habitsNMedHist.get().getOtherInsuranceList().isEmpty()) {
+				if (!(null == habitsNMedHist.get().getOtherInsuranceList()
+						|| habitsNMedHist.get().getOtherInsuranceList().isEmpty())) {
 					put("insuranceType", habitsNMedHist.get().getOtherInsuranceList().get(0).getInsuranceType());
 				}
 				put("policyHolderAddress", policyHolderPD.get().getPolicyHolderAddress());
@@ -317,28 +317,43 @@ public class EreportingServiceImpl implements EreportingService {
 
 				put("policyHolderPlaceOfDeath", policyHolderPD.get().getPolicyHolderPlaceOfDeath());
 
-				if (!lastDocHosp.get().getLastDocList().isEmpty()) {
+				if (!(null == lastDocHosp.get().getLastDocList() || lastDocHosp.get().getLastDocList().isEmpty())) {
 					put("lastDocObservation", lastDocHosp.get().getLastDocList().get(0).getObservation());
 				}
 
 				put("pastMedicalHistoryCheck", habitsNMedHist.get().getPastMedicalHistoryCheck());
-				if (!habitsNMedHist.get().getPastMedHistList().isEmpty()) {
+				if (!(null == habitsNMedHist.get().getPastMedHistList()
+						|| habitsNMedHist.get().getPastMedHistList().isEmpty())) {
 					for (int i = 0; i < habitsNMedHist.get().getPastMedHistList().size(); i++) {
 						put("diseaseName" + i, habitsNMedHist.get().getPastMedHistList().get(i).getDiseasaeName());
-						put("diseaseDuration" + i, habitsNMedHist.get().getPastMedHistList().get(i).getDuration());
+						put("diseaseDuration" + i,
+								habitsNMedHist.get().getPastMedHistList().get(i).getDuration_obj().getYears()
+										+ " years and "
+										+ habitsNMedHist.get().getPastMedHistList().get(i).getDuration_obj().getMonths()
+										+ " months");
 						put("treatmentLocation" + i,
-								habitsNMedHist.get().getPastMedHistList().get(i).getTreatmentLocation());
+								habitsNMedHist.get().getPastMedHistList().get(i).getTreatmentDocName() + ","
+										+ habitsNMedHist.get().getPastMedHistList().get(i).getTreatmentPlaceName() + ","
+										+ habitsNMedHist.get().getPastMedHistList().get(i).getTreatmentLocation());
 					}
 				}
 				put("pastHabitHistoryCheck", habitsNMedHist.get().getPastHabitHistoryCheck());
-				if (!habitsNMedHist.get().getHabitList().isEmpty()) {
+				if (!(null == habitsNMedHist.get().getHabitList() || habitsNMedHist.get().getHabitList().isEmpty())) {
 					for (int i = 0; i < habitsNMedHist.get().getHabitList().size(); i++) {
 						put("habitName" + i, habitsNMedHist.get().getHabitList().get(i).getHabitName());
-						put("habitDuration" + i, habitsNMedHist.get().getHabitList().get(i).getHabitDuration());
+						put("habitDuration" + i,
+								habitsNMedHist.get().getHabitList().get(i).getHabitDuration_obj().getYears()
+										+ " years and "
+										+ habitsNMedHist.get().getHabitList().get(i).getHabitDuration_obj().getMonths()
+										+ " months");
+						put("habitFrequency" + i, habitsNMedHist.get().getHabitList().get(i).getHabitFrequency());
+
 					}
 				}
 				put("policyHolderDesignation", policyHolderPD.get().getPolicyHolderDesignation());
-				put("policyHolderOccupationTenure", policyHolderPD.get().getPolicyHolderOccupationTenure());
+				put("policyHolderOccupationTenure",
+						policyHolderPD.get().getPolicyHolderOccupationTenure_obj().getYears() + " years and "
+								+ policyHolderPD.get().getPolicyHolderOccupationTenure_obj().getMonths() + " months");
 
 				put("policyHolderEmpId", policyHolderPD.get().getPolicyHolderEmpId());
 				put("policyHolderLwd",
@@ -347,7 +362,8 @@ public class EreportingServiceImpl implements EreportingService {
 
 				put("otherInsuranceCheck", habitsNMedHist.get().getOtherInsuranceCheck());
 
-				if (!habitsNMedHist.get().getOtherInsuranceList().isEmpty()) {
+				if (!(null == habitsNMedHist.get().getOtherInsuranceList()
+						|| habitsNMedHist.get().getOtherInsuranceList().isEmpty())) {
 
 					for (int i = 0; i < habitsNMedHist.get().getOtherInsuranceList().size(); i++) {
 						put("otherInsuranceType" + i,
@@ -364,7 +380,9 @@ public class EreportingServiceImpl implements EreportingService {
 					}
 
 				}
-				put("policyHolderAddressTenure", policyHolderPD.get().getPolicyHolderAddressTenure());
+				put("policyHolderAddressTenure",
+						policyHolderPD.get().getPolicyHolderAddressTenure_obj().getYears() + " years and "
+								+ policyHolderPD.get().getPolicyHolderAddressTenure_obj().getMonths() + " months");
 				put("policyHolderStandardOfLiving", policyHolderPD.get().getPolicyHolderStandardOfLiving());
 
 				put("kycDocumentListLA", documentsColl.get().getKycDocumentListLA());
@@ -376,7 +394,8 @@ public class EreportingServiceImpl implements EreportingService {
 
 				put("insurancePurpose", policyHolderPD.get().getInsurancePurpose());
 
-				if (!neighbNEmpRef.get().getNeighbourList().isEmpty()) {
+				if (!(null == neighbNEmpRef.get().getNeighbourList()
+						|| neighbNEmpRef.get().getNeighbourList().isEmpty())) {
 
 					for (int i = 0; i < neighbNEmpRef.get().getNeighbourList().size(); i++) {
 						put("neigshbourName" + i, neighbNEmpRef.get().getNeighbourList().get(i).getName());
@@ -393,7 +412,8 @@ public class EreportingServiceImpl implements EreportingService {
 
 				}
 
-				if (!neighbNEmpRef.get().getColleagueList().isEmpty()) {
+				if (!(null == neighbNEmpRef.get().getColleagueList()
+						|| neighbNEmpRef.get().getColleagueList().isEmpty())) {
 
 					for (int i = 0; i < neighbNEmpRef.get().getColleagueList().size(); i++) {
 						put("colleagueName" + i, neighbNEmpRef.get().getColleagueList().get(i).getName());
@@ -404,7 +424,7 @@ public class EreportingServiceImpl implements EreportingService {
 
 				}
 
-				if (!lastDocHosp.get().getLastDocList().isEmpty()) {
+				if (!(null == lastDocHosp.get().getLastDocList() || lastDocHosp.get().getLastDocList().isEmpty())) {
 					for (int i = 0; i < lastDocHosp.get().getLastDocList().size(); i++) {
 						put("lastDocplaceName" + i, lastDocHosp.get().getLastDocList().get(i).getPlaceName());
 						put("lastDocObservation" + i, lastDocHosp.get().getLastDocList().get(i).getObservation());
@@ -433,17 +453,18 @@ public class EreportingServiceImpl implements EreportingService {
 
 				put("issuingAuthorityName", deathCertf.get().getIssuingAuthorityName());
 				put("personMet", deathCertf.get().getPersonMet());
-				put("anganWadiName", deathCertf.get().getAnganWadiName());
-				put("anaganWadiContact", deathCertf.get().getAnaganWadiContact());
-				put("anmName", deathCertf.get().getAnmName());
-				put("anmContact", deathCertf.get().getAnmContact());
-				put("ashaName", deathCertf.get().getAshaName());
-				put("ashaContact", deathCertf.get().getAshaContact());
-				put("sarpanchName", deathCertf.get().getSarpanchName());
-				put("sarpanchContact", deathCertf.get().getSarpanchContact());
-				put("gramSachiveOrTalathiName", deathCertf.get().getGramSachiveOrTalathiName());
-				put("gramSachiveOrTalathiContact", deathCertf.get().getGramSachiveOrTalathiContact());
-
+				if (deathCertf.get().getCaseGeography().equals("Rural")) {
+					put("anganWadiName", deathCertf.get().getAnganWadiName());
+					put("anaganWadiContact", deathCertf.get().getAnaganWadiContact());
+					put("anmName", deathCertf.get().getAnmName());
+					put("anmContact", deathCertf.get().getAnmContact());
+					put("ashaName", deathCertf.get().getAshaName());
+					put("ashaContact", deathCertf.get().getAshaContact());
+					put("sarpanchName", deathCertf.get().getSarpanchName());
+					put("sarpanchContact", deathCertf.get().getSarpanchContact());
+					put("gramSachiveOrTalathiName", deathCertf.get().getGramSachiveOrTalathiName());
+					put("gramSachiveOrTalathiContact", deathCertf.get().getGramSachiveOrTalathiContact());
+				}
 				put("newsPapCutCol", documentsColl.get().getNewsPapCutCol());
 				put("newsPaperRemark", documentsColl.get().getNewsPaperRemark());
 
@@ -460,17 +481,17 @@ public class EreportingServiceImpl implements EreportingService {
 	}
 
 	public void sendEmail(String repName, String caseId) throws MessagingException {
-		String from = "sharifaspak@gmail.com";
-		String to = "aspaksharif@gmail.com";
+		String from = "aspaksharif@gmail.com";
+		String to = "mumbai.cag@gmail.com";
 
 		MimeMessage message = mailSender.createMimeMessage();
 		MimeMessageHelper helper = new MimeMessageHelper(message, true);
 
-		helper.setSubject("Here's your e-report");
+		helper.setSubject("Here's your e-report for case Id " + caseId);
 		helper.setFrom(from);
 		helper.setTo(to);
 
-		helper.setText("<b>Dear friend</b>,<br><i>Please find the report attached.</i>", true);
+		helper.setText("<b>Dear team</b>,<br><i>Please find the report attached.</i>", true);
 
 		FileSystemResource file = new FileSystemResource(new File(repName));
 		helper.addAttachment(caseId + ".docx", file);
