@@ -260,12 +260,19 @@ public class EreportingServiceImpl implements EreportingService {
 						policyHolderPD.get().getPolicyHolderDod()));
 				put("policyHolderName", policyHolderPD.get().getPolicyHolderName());
 				put("policyHolderOccupationName", policyHolderPD.get().getPolicyHolderOccupationName());
-				put("nomineeName", nomineeFamDts.get().getNomineeDetailsList().get(0).getNomineeName());
-				put("nomineeDob", CagUtils.convertToLocalDateViaInstant(
-						nomineeFamDts.get().getNomineeDetailsList().get(0).getNomineeDob()));
+				if (!(null == nomineeFamDts.get().getNomineeDetailsList()
+						|| nomineeFamDts.get().getNomineeDetailsList().isEmpty())) {
+					put("nomineeName", nomineeFamDts.get().getNomineeDetailsList().get(0).getNomineeName());
+					put("nomineeDob", CagUtils.convertToLocalDateViaInstant(
+							nomineeFamDts.get().getNomineeDetailsList().get(0).getNomineeDob()));
+					put("nomineeOccupation", nomineeFamDts.get().getNomineeDetailsList().get(0).getNomineeOccupation());
+					put("nomineeRelation", nomineeFamDts.get().getNomineeDetailsList().get(0).getNomineeRelation());
+					put("nomineeAddress", nomineeFamDts.get().getNomineeDetailsList().get(0).getNomineeAddress());
+					put("nomineeContact", nomineeFamDts.get().getNomineeDetailsList().get(0).getNomineeContact());
+				}
 				put("policyHolderDob",
 						CagUtils.convertToLocalDateViaInstant(policyHolderPD.get().getPolicyHolderDob()));
-				put("nomineeOccupation", nomineeFamDts.get().getNomineeDetailsList().get(0).getNomineeOccupation());
+
 				put("policyHolderDod",
 						CagUtils.convertToLocalDateViaInstant(policyHolderPD.get().getPolicyHolderDod()));
 				put("policyHolderPremiumAmt", policyHolderPD.get().getPolicyHolderPremiumAmt());
@@ -287,18 +294,20 @@ public class EreportingServiceImpl implements EreportingService {
 					put("insuranceType", habitsNMedHist.get().getOtherInsuranceList().get(0).getInsuranceType());
 				}
 				put("policyHolderAddress", policyHolderPD.get().getPolicyHolderAddress());
-				put("nomineeRelation", nomineeFamDts.get().getNomineeDetailsList().get(0).getNomineeRelation());
+				if (!(null == nomineeFamDts.get().getFamilyDetailsList()
+						|| nomineeFamDts.get().getFamilyDetailsList().isEmpty())) {
 
-				for (int i = 0; i < nomineeFamDts.get().getFamilyDetailsList().size(); i++) {
-					put("familyDetailsName" + i, nomineeFamDts.get().getFamilyDetailsList().get(i).getName());
-					put("familyDetailsAge" + i, nomineeFamDts.get().getFamilyDetailsList().get(i).getAge());
-					put("familyDetailsRelationShip" + i,
-							nomineeFamDts.get().getFamilyDetailsList().get(i).getRelationShip());
-					put("familyDetailsOccupation" + i,
-							nomineeFamDts.get().getFamilyDetailsList().get(i).getOccupation());
-					put("familyDetailscontactNumber" + i,
-							nomineeFamDts.get().getFamilyDetailsList().get(i).getContactNumber());
-					put("familyDetailsaddress" + i, nomineeFamDts.get().getFamilyDetailsList().get(i).getAddress());
+					for (int i = 0; i < nomineeFamDts.get().getFamilyDetailsList().size(); i++) {
+						put("familyDetailsName" + i, nomineeFamDts.get().getFamilyDetailsList().get(i).getName());
+						put("familyDetailsAge" + i, nomineeFamDts.get().getFamilyDetailsList().get(i).getAge());
+						put("familyDetailsRelationShip" + i,
+								nomineeFamDts.get().getFamilyDetailsList().get(i).getRelationShip());
+						put("familyDetailsOccupation" + i,
+								nomineeFamDts.get().getFamilyDetailsList().get(i).getOccupation());
+						put("familyDetailscontactNumber" + i,
+								nomineeFamDts.get().getFamilyDetailsList().get(i).getContactNumber());
+						put("familyDetailsaddress" + i, nomineeFamDts.get().getFamilyDetailsList().get(i).getAddress());
+					}
 				}
 
 				put("rationParivarCard", documentsColl.get().getRationParivarCard());
@@ -308,7 +317,6 @@ public class EreportingServiceImpl implements EreportingService {
 				put("nomineeRelationProofCollected", documentsColl.get().getNomineeRelationProofCollected());
 				put("affidavitCollected", documentsColl.get().getAffidavitCollected());
 
-				put("nomineeAddress", nomineeFamDts.get().getNomineeDetailsList().get(0).getNomineeAddress());
 				put("metSalutation", nomineeFamDts.get().getMetSalutation());
 				put("metPersonName", nomineeFamDts.get().getMetPersonName());
 				put("metPersonRelationship", nomineeFamDts.get().getMetPersonRelationship());
@@ -351,10 +359,11 @@ public class EreportingServiceImpl implements EreportingService {
 					}
 				}
 				put("policyHolderDesignation", policyHolderPD.get().getPolicyHolderDesignation());
+				if (!(null == policyHolderPD.get().getPolicyHolderAddressTenure_obj())) {
 				put("policyHolderOccupationTenure",
 						policyHolderPD.get().getPolicyHolderOccupationTenure_obj().getYears() + " years and "
 								+ policyHolderPD.get().getPolicyHolderOccupationTenure_obj().getMonths() + " months");
-
+				}
 				put("policyHolderEmpId", policyHolderPD.get().getPolicyHolderEmpId());
 				put("policyHolderLwd",
 						CagUtils.convertToLocalDateViaInstant(policyHolderPD.get().getPolicyHolderLwd()));
@@ -380,14 +389,14 @@ public class EreportingServiceImpl implements EreportingService {
 					}
 
 				}
-				put("policyHolderAddressTenure",
-						policyHolderPD.get().getPolicyHolderAddressTenure_obj().getYears() + " years and "
-								+ policyHolderPD.get().getPolicyHolderAddressTenure_obj().getMonths() + " months");
+				if (!(null == policyHolderPD.get().getPolicyHolderAddressTenure_obj())) {
+					put("policyHolderAddressTenure",
+							policyHolderPD.get().getPolicyHolderAddressTenure_obj().getYears() + " years and "
+									+ policyHolderPD.get().getPolicyHolderAddressTenure_obj().getMonths() + " months");
+				}
 				put("policyHolderStandardOfLiving", policyHolderPD.get().getPolicyHolderStandardOfLiving());
 
 				put("kycDocumentListLA", documentsColl.get().getKycDocumentListLA());
-
-				put("nomineeContact", nomineeFamDts.get().getNomineeDetailsList().get(0).getNomineeContact());
 
 				put("pastNPresentMedRecords", documentsColl.get().getPastNPresentMedRecords());
 				put("incomeProofDoc", documentsColl.get().getIncomeProofDoc());
@@ -453,7 +462,7 @@ public class EreportingServiceImpl implements EreportingService {
 
 				put("issuingAuthorityName", deathCertf.get().getIssuingAuthorityName());
 				put("personMet", deathCertf.get().getPersonMet());
-				if (deathCertf.get().getCaseGeography().equals("Rural")) {
+				if ("Rural".equals(deathCertf.get().getCaseGeography())) {
 					put("anganWadiName", deathCertf.get().getAnganWadiName());
 					put("anaganWadiContact", deathCertf.get().getAnaganWadiContact());
 					put("anmName", deathCertf.get().getAnmName());
