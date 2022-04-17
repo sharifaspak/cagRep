@@ -1,5 +1,6 @@
 package com.cag;
 
+import org.apache.poi.ss.usermodel.DataFormatter;
 import org.modelmapper.ModelMapper;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -19,5 +20,10 @@ public class EReportingCagApplication {
 		return new ModelMapper();
 	}
 	
-
+	@Bean
+	public DataFormatter dataFormatter() {
+		return new DataFormatter();
+	}
+	
+	
 }

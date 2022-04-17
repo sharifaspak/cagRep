@@ -10,6 +10,9 @@ import java.util.List;
 
 import javax.mail.MessagingException;
 
+import org.apache.poi.ss.usermodel.CellType;
+import org.apache.poi.ss.usermodel.DataFormatter;
+import org.apache.poi.ss.usermodel.DateUtil;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -64,6 +67,9 @@ public class EreportingController {
 
 	@Autowired
 	ModelMapper modelmapper;
+
+	@Autowired
+	DataFormatter df;
 
 	@Autowired
 	EreportingService ereportingService;
@@ -139,56 +145,65 @@ public class EreportingController {
 				DeathCertf deathCertf = new DeathCertf();
 				DocumentsColl documentsColl = new DocumentsColl();
 				XSSFRow row = worksheet.getRow(i);
-				if (null ==ereportingService.fetchLead(row.getCell(3).getStringCellValue())) {
-					// New as per comments start
-					openCases.setPartnerName(row.getCell(0).getStringCellValue());
+				// df.formatCellValue(row.getCell(3).setCellType(CellType.STRING);
 
-					// openCases.setCaseId(row.getCell(3).getStringCellValue());
-					openCases.setCaseId(row.getCell(3).getStringCellValue());
-					openCases.setPolicyHolderName(row.getCell(2).getStringCellValue());
-					openCases.setPolicyNumber(row.getCell(3).getStringCellValue());
-					openCases.setClaimNo(row.getCell(4).getStringCellValue());
-					openCases.setInvestigationType(row.getCell(5).getStringCellValue());
-					openCases.setState(row.getCell(6).getStringCellValue());
-					openCases.setCity(row.getCell(7).getStringCellValue());
-					openCases
-							.setLeadRecievedDate(row.getCell(8).getLocalDateTimeCellValue().toLocalDate().minusDays(1));
-					openCases.setFieldAgentName(row.getCell(9).getStringCellValue());
-					openCases.setBackendAgentName(row.getCell(10).getStringCellValue());
-					openCases.setLeadOwner(row.getCell(11).getStringCellValue());
-					openCases.setClaimentName(row.getCell(12).getStringCellValue());
-					openCases.setProposalContact(row.getCell(13).getStringCellValue());
-					openCases.setProposalAddress(row.getCell(14).getStringCellValue());
-					openCases.setClaimFormContact(row.getCell(15).getStringCellValue());
-					openCases.setClaimFormAdd(row.getCell(16).getStringCellValue());
-					openCases.setPolicyIssuanceDate(row.getCell(17).getLocalDateTimeCellValue().toLocalDate());
-					openCases.setLeadCauseOfDeath(row.getCell(18).getStringCellValue());
-					openCases.setLeadSumAssured(row.getCell(19).getStringCellValue());
-					openCases.setClaimFormEmail(row.getCell(20).getStringCellValue());
-					openCases.setProposalEmail(row.getCell(21).getStringCellValue());
+				// String asItLooksInExcel =
+				// df.formatCellValue(df.formatCellValue(row.getCell(3));
+
+				if (null == ereportingService.fetchLead(df.formatCellValue(row.getCell(3)))) {
+					// New as per comments start
+					openCases.setPartnerName(df.formatCellValue(row.getCell(0)));
+
+					// openCases.setCaseId(df.formatCellValue(row.getCell(3)));
+					openCases.setCaseId(df.formatCellValue(row.getCell(3)));
+					openCases.setPolicyHolderName(df.formatCellValue(row.getCell(2)));
+					openCases.setPolicyNumber(df.formatCellValue(row.getCell(3)));
+					openCases.setClaimNo(df.formatCellValue(row.getCell(4)));
+					openCases.setInvestigationType(df.formatCellValue(row.getCell(5)));
+					openCases.setState(df.formatCellValue(row.getCell(6)));
+					openCases.setCity(df.formatCellValue(row.getCell(7)));
+
+					openCases.setLeadRecievedDate(
+							DateUtil.getLocalDateTime(Double.valueOf(row.getCell(8).getRawValue())).toLocalDate());
+
+					// System.out.println(df.formatCellValue(row.getCell(8).getDateCellValue());
+					openCases.setFieldAgentName(df.formatCellValue(row.getCell(9)));
+					openCases.setBackendAgentName(df.formatCellValue(row.getCell(10)));
+					openCases.setLeadOwner(df.formatCellValue(row.getCell(11)));
+					openCases.setClaimentName(df.formatCellValue(row.getCell(12)));
+					openCases.setProposalContact(df.formatCellValue(row.getCell(13)));
+					openCases.setProposalAddress(df.formatCellValue(row.getCell(14)));
+					openCases.setClaimFormContact(df.formatCellValue(row.getCell(15)));
+					openCases.setClaimFormAdd(df.formatCellValue(row.getCell(16)));
+					openCases.setPolicyIssuanceDate(
+							DateUtil.getLocalDateTime(Double.valueOf(row.getCell(17).getRawValue())).toLocalDate());
+					openCases.setLeadCauseOfDeath(df.formatCellValue(row.getCell(18)));
+					openCases.setLeadSumAssured(df.formatCellValue(row.getCell(19)));
+					openCases.setClaimFormEmail(df.formatCellValue(row.getCell(20)));
+					openCases.setProposalEmail(df.formatCellValue(row.getCell(21)));
 					openCases.setLeadStatus("field");
 					System.out.println("file upload started - 5");
-					openCases.setFolderId(fileManager.getFolderId(row.getCell(1).getStringCellValue()));
+					openCases.setFolderId(fileManager.getFolderId(df.formatCellValue(row.getCell(3))));
 					System.out.println("file upload started - 6");
 
 					casesList.add(openCases);
 					System.out.println(openCases.toString());
 
 					// lead details
-					leadDetails.setInsuranceCompany(row.getCell(0).getStringCellValue());
-					leadDetails.setCaseId(row.getCell(3).getStringCellValue());
-					leadDetails.setLaName(row.getCell(2).getStringCellValue());
-					leadDetails.setPolicyNumber(row.getCell(3).getStringCellValue());
-					leadDetails.setInvestigationType(row.getCell(5).getStringCellValue());
-					leadDetails.setState(row.getCell(6).getStringCellValue());
-					leadDetails.setCity(row.getCell(7).getStringCellValue());
-					leadDetails.setCaseOwner(row.getCell(11).getStringCellValue());
-					leadDetails.setNomineeContact(row.getCell(15).getStringCellValue());
-					leadDetails.setClaimFormContact(row.getCell(15).getStringCellValue());
-					leadDetails.setProposalFormContact(row.getCell(13).getStringCellValue());
-					leadDetails.setNomineeAddress(row.getCell(16).getStringCellValue());
-					leadDetails.setProposalFormAddress(row.getCell(14).getStringCellValue());
-					leadDetails.setClaimFormAddress(row.getCell(16).getStringCellValue());
+					leadDetails.setInsuranceCompany(df.formatCellValue(row.getCell(0)));
+					leadDetails.setCaseId(df.formatCellValue(row.getCell(3)));
+					leadDetails.setLaName(df.formatCellValue(row.getCell(2)));
+					leadDetails.setPolicyNumber(df.formatCellValue(row.getCell(3)));
+					leadDetails.setInvestigationType(df.formatCellValue(row.getCell(5)));
+					leadDetails.setState(df.formatCellValue(row.getCell(6)));
+					leadDetails.setCity(df.formatCellValue(row.getCell(7)));
+					leadDetails.setCaseOwner(df.formatCellValue(row.getCell(11)));
+					leadDetails.setNomineeContact(df.formatCellValue(row.getCell(15)));
+					leadDetails.setClaimFormContact(df.formatCellValue(row.getCell(15)));
+					leadDetails.setProposalFormContact(df.formatCellValue(row.getCell(13)));
+					leadDetails.setNomineeAddress(df.formatCellValue(row.getCell(16)));
+					leadDetails.setProposalFormAddress(df.formatCellValue(row.getCell(14)));
+					leadDetails.setClaimFormAddress(df.formatCellValue(row.getCell(16)));
 					leadDetails.setUpdatedBy("Admin");
 					leadDetails.setUpdatedDate(new Date());
 
@@ -196,63 +211,64 @@ public class EreportingController {
 
 					// Policy holder pd
 
-					policyHolderPD.setCaseId(row.getCell(3).getStringCellValue());
-					policyHolderPD.setPolicyHolderName(row.getCell(2).getStringCellValue());
-					policyHolderPD.setPolicyIssuanceDate(row.getCell(17).getDateCellValue());
-					policyHolderPD.setCaseOwner(row.getCell(11).getStringCellValue());
-					policyHolderPD.setProposalFormAddress(row.getCell(14).getStringCellValue());
-					policyHolderPD.setClaimFormAddress(row.getCell(16).getStringCellValue());
-					policyHolderPD.setPolicyHolderSumAssured(row.getCell(19).getStringCellValue());
+					policyHolderPD.setCaseId(df.formatCellValue(row.getCell(3)));
+					policyHolderPD.setPolicyHolderName(df.formatCellValue(row.getCell(2)));
+					policyHolderPD
+							.setPolicyIssuanceDate(DateUtil.getJavaDate(Double.valueOf(row.getCell(17).getRawValue())));
+					policyHolderPD.setCaseOwner(df.formatCellValue(row.getCell(11)));
+					policyHolderPD.setProposalFormAddress(df.formatCellValue(row.getCell(14)));
+					policyHolderPD.setClaimFormAddress(df.formatCellValue(row.getCell(16)));
+					policyHolderPD.setPolicyHolderSumAssured(df.formatCellValue(row.getCell(19)));
 					policyHolderPD.setUpdatedBy("Admin");
 					policyHolderPD.setUpdatedDate(new Date());
-					policyHolderPD.setPolicyNumber(row.getCell(3).getStringCellValue());
+					policyHolderPD.setPolicyNumber(df.formatCellValue(row.getCell(3)));
 					policyHolderPDList.add(policyHolderPD);
 
 					System.out.println(openCases.toString());
 
 					// Nominee family details
 
-					nomineeFamDts.setCaseId(row.getCell(3).getStringCellValue());
-					nomineeFamDts.setCaseOwner(row.getCell(11).getStringCellValue());
+					nomineeFamDts.setCaseId(df.formatCellValue(row.getCell(3)));
+					nomineeFamDts.setCaseOwner(df.formatCellValue(row.getCell(11)));
 					nomineeFamDts.setUpdatedBy("Admin");
 					nomineeFamDtsList.add(nomineeFamDts);
 
 					// Habits and Medical history
 
-					habitsNMedHist.setCaseId(row.getCell(3).getStringCellValue());
-					habitsNMedHist.setCaseOwner(row.getCell(11).getStringCellValue());
+					habitsNMedHist.setCaseId(df.formatCellValue(row.getCell(3)));
+					habitsNMedHist.setCaseOwner(df.formatCellValue(row.getCell(11)));
 					habitsNMedHist.setUpdatedBy("Admin");
 					habitsNMedHistList.add(habitsNMedHist);
 
 					// Neighbour and Emp ref details
 
-					neighbNEmpRef.setCaseId(row.getCell(3).getStringCellValue());
-					neighbNEmpRef.setCaseOwner(row.getCell(11).getStringCellValue());
+					neighbNEmpRef.setCaseId(df.formatCellValue(row.getCell(3)));
+					neighbNEmpRef.setCaseOwner(df.formatCellValue(row.getCell(11)));
 					neighbNEmpRef.setUpdatedBy("Admin");
 					neighbNEmpRefList.add(neighbNEmpRef);
 
 					// Neighbour and Emp ref details
 
-					lastDocHosp.setCaseId(row.getCell(3).getStringCellValue());
-					lastDocHosp.setCaseOwner(row.getCell(11).getStringCellValue());
+					lastDocHosp.setCaseId(df.formatCellValue(row.getCell(3)));
+					lastDocHosp.setCaseOwner(df.formatCellValue(row.getCell(11)));
 					lastDocHosp.setUpdatedBy("Admin");
 					lastDocHospList.add(lastDocHosp);
 
 					// DeathCertf Details
 
-					deathCertf.setCaseId(row.getCell(3).getStringCellValue());
-					deathCertf.setCaseOwner(row.getCell(11).getStringCellValue());
+					deathCertf.setCaseId(df.formatCellValue(row.getCell(3)));
+					deathCertf.setCaseOwner(df.formatCellValue(row.getCell(11)));
 					deathCertf.setUpdatedBy("Admin");
 					deathCertfList.add(deathCertf);
 
 					// Documents collected
 
-					documentsColl.setCaseId(row.getCell(3).getStringCellValue());
-					documentsColl.setCaseOwner(row.getCell(11).getStringCellValue());
+					documentsColl.setCaseId(df.formatCellValue(row.getCell(3)));
+					documentsColl.setCaseOwner(df.formatCellValue(row.getCell(11)));
 					documentsColl.setUpdatedBy("Admin");
 					documentsCollList.add(documentsColl);
 				} else {
-					duplicateUploads.add(row.getCell(3).getStringCellValue());
+					duplicateUploads.add(df.formatCellValue(row.getCell(3)));
 				}
 			}
 
