@@ -164,7 +164,7 @@ public class EreportingController {
 					openCases.setCity(df.formatCellValue(row.getCell(7)));
 
 					openCases.setLeadRecievedDate(
-							DateUtil.getLocalDateTime(Double.valueOf(row.getCell(8).getRawValue())).toLocalDate());
+							DateUtil.getLocalDateTime(Double.valueOf(row.getCell(8).getRawValue())).toLocalDate().minusDays(1));
 
 					// System.out.println(df.formatCellValue(row.getCell(8).getDateCellValue());
 					openCases.setFieldAgentName(df.formatCellValue(row.getCell(9)));
