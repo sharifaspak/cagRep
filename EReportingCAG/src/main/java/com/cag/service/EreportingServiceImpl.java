@@ -9,7 +9,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.file.Files;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -108,30 +110,36 @@ public class EreportingServiceImpl implements EreportingService {
 
 	@Override
 	public List<LeadSheet> listCases(ListCasesRequestDto listCasesRequestDto) {
+		
+		Date newToDate = listCasesRequestDto.getTo();
+		Calendar c = Calendar.getInstance(); 
+		c.setTime(newToDate); 
+		c.add(Calendar.DATE, 1);
+		newToDate = c.getTime();
 
 		Pageable paging = PageRequest.of(listCasesRequestDto.getPageNumber(), listCasesRequestDto.getNumberOfrecords(),
 				Sort.by("leadRecievedDate").descending());
 		LOG.info("user role in request is {}", listCasesRequestDto.getRole());
 		if (!(null == listCasesRequestDto.getPolicyHolderName()
 				|| listCasesRequestDto.getPolicyHolderName().isEmpty())) {
-			return caseRepository.findByPolicyHolderName(listCasesRequestDto.getPolicyHolderName(), paging);
+			return caseRepository.findByPolicyHolderNameIgnoreCase(listCasesRequestDto.getPolicyHolderName(), paging);
 		} else {
 			switch (listCasesRequestDto.getRole()) {
 			case ApplicationConstants.FIELD_AGENT:
 				return caseRepository.findByFieldAgentNameAndLeadStatusAndLeadRecievedDateBetween(
 						listCasesRequestDto.getAgentName(), ApplicationConstants.FIELD_STATUS,
-						listCasesRequestDto.getFrom(), listCasesRequestDto.getTo(), paging);
+						listCasesRequestDto.getFrom(), newToDate, paging);
 			case ApplicationConstants.BACKEND_AGENT:
 				return caseRepository.findByBackendAgentNameAndLeadStatusAndLeadRecievedDateBetween(
 						listCasesRequestDto.getAgentName(), ApplicationConstants.BACKEND_STATUS,
-						listCasesRequestDto.getFrom(), listCasesRequestDto.getTo(), paging);
+						listCasesRequestDto.getFrom(), newToDate, paging);
 			case ApplicationConstants.LEAD_OWNER:
 				return caseRepository.findByLeadOwnerAndLeadStatusAndLeadRecievedDateBetween(
 						listCasesRequestDto.getAgentName(), ApplicationConstants.OWNER_STATUS,
-						listCasesRequestDto.getFrom(), listCasesRequestDto.getTo(), paging);
+						listCasesRequestDto.getFrom(), newToDate, paging);
 			default:
 				return caseRepository.findByLeadStatusAndLeadRecievedDateBetween(listCasesRequestDto.getStatus(),
-						listCasesRequestDto.getFrom(), listCasesRequestDto.getTo(), paging);
+						listCasesRequestDto.getFrom(),newToDate, paging);
 			}
 		}
 	}

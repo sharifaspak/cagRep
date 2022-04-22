@@ -149,6 +149,8 @@ public class EreportingController {
 
 				// String asItLooksInExcel =
 				// df.formatCellValue(df.formatCellValue(row.getCell(3));
+				if(null==row)
+					break;
 
 				if (null == ereportingService.fetchLead(df.formatCellValue(row.getCell(3)))) {
 					// New as per comments start
@@ -164,7 +166,7 @@ public class EreportingController {
 					openCases.setCity(df.formatCellValue(row.getCell(7)));
 
 					openCases.setLeadRecievedDate(
-							DateUtil.getLocalDateTime(Double.valueOf(row.getCell(8).getRawValue())).toLocalDate().minusDays(1));
+							DateUtil.getLocalDateTime(Double.valueOf(row.getCell(8).getRawValue())).toLocalDate());
 
 					// System.out.println(df.formatCellValue(row.getCell(8).getDateCellValue());
 					openCases.setFieldAgentName(df.formatCellValue(row.getCell(9)));

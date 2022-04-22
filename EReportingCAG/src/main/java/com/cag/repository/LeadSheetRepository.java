@@ -7,6 +7,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.mongodb.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.stereotype.Repository;
 
@@ -30,7 +31,7 @@ public interface LeadSheetRepository extends PagingAndSortingRepository<LeadShee
 
 	List<LeadSheet> findByLeadOwnerAndLeadStatusAndLeadRecievedDateBetween(String agentName, String leadStatus,
 			Date from, Date to, Pageable pageable);
-
-	List<LeadSheet> findByPolicyHolderName(String policyHolderName, Pageable paging);
+	@Query("{'policyHolderName' : {$regex:?0,$options:'i'}}")
+	List<LeadSheet> findByPolicyHolderNameIgnoreCase(String policyHolderName, Pageable paging);
 
 }
